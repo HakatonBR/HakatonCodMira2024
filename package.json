@@ -14,6 +14,7 @@
     "typescript": "^5.4.5",
     "vue": "^3.4.27",
     "vue-recaptcha": "^3.0.0-alpha.6",
+    "vue-recaptcha-v3": "^2.0.1",
     "vue-router": "^4.3.2",
     "vue3-leaflet": "^1.0.48",
     "vuetify": "^3.6.8",

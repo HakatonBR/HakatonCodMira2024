@@ -8,26 +8,26 @@ export default{
     data() {
         return {
             show_password: false,
+            old_password: '',
+            confirm_password: '',
             user_info: {
                 email: "",
-                role: "",
                 password: "",
             },
-            confirm_password: "",
-            items: [
-                "HR",
-                "Recruiter",
-                "Reourse Manager"
-            ],
             rules: {
-                required: v => !!v || "Требуется ввод",
-                // emailExist: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
-                emailMatch: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
+                // todo
+                correctPasswords: v => true || 'Не правильный пароль',
                 passwordMatch: v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(v) || 'Пароль должен содержать хотя бы одну цифру, одну маленькую и одну большую букву, и быть длиннее 8 символов',
                 passwordsEquals: v => v === this.user_info.password || 'Пароли не совпадают',
             }
             }
+    },
+    methods: {
+        reset_password(){
+            // axios.post(`#`, [this.user_info]) // add the link
+        },
     }
+
 }
 </script>
 
@@ -36,27 +36,9 @@ export default{
         <v-form class="registration-form">
             <img src="" alt="" class="registration-logo"> 
             <h1 class="registration-title">
-                Регистрация
+                Смена пароля
             </h1>
             <hr class="registration-divider">
-            <v-text-field 
-                prepend-inner-icon="mdi-email-outline"
-                v-model="this.user_info.email"
-                type="email" 
-                :rules="[rules.emailMatch]"
-                class="registration-row-input" 
-                label="Email"
-                required 
-            ></v-text-field>
-            <v-select
-                :prepend-inner-icon="'mdi-briefcase-outline'"
-                v-model="this.user_info.role"
-                :items="items"
-                :rules="[rules.required]"
-                label="Роль"
-                required
-                class="registration-row-input"
-            ></v-select>
             <v-text-field 
                 :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show_password ? 'text' : 'password'"
@@ -64,25 +46,34 @@ export default{
                 @click:append-inner="show_password = !show_password"
                 prepend-inner-icon="mdi-lock-outline"
                 class="registration-row-input" 
-                label="Пароль" 
+                label="Старый пароль" 
+                required 
+                v-model="this.old_password"
+                :rules="[rules.correctPasswords]"
+            ></v-text-field>
+            <v-text-field 
+                :type="show_password ? 'text' : 'password'"
+                counter
+                @click:append-inner="show_password = !show_password"
+                prepend-inner-icon="mdi-lock-outline"
+                class="registration-row-input" 
+                label="Новый пароль" 
                 required 
                 v-model="this.user_info.password"
                 :rules="[rules.passwordMatch]"
             ></v-text-field>
             <v-text-field 
-                prepend-inner-icon="mdi-lock-outline"
                 :type="show_password ? 'text' : 'password'"
-                type="password" 
+                counter
+                @click:append-inner="show_password = !show_password"
+                prepend-inner-icon="mdi-lock-outline"
                 class="registration-row-input" 
                 label="Подтверждение пароля" 
                 required 
                 v-model="this.confirm_password"
                 :rules="[rules.passwordsEquals]"
             ></v-text-field>
-            <v-btn type="submit" class="registration-submit" @click="register()" block>Зарегистрироваться</v-btn>
-            <p class="register-signin">
-                <pre>Если у вас есть аккаунт <RouterLink class="register-signin-url" to="/auth">авторизация</RouterLink></pre>
-            </p>
+            <v-btn type="submit" class="registration-submit" @click="reset_password()" block>Подтверждить</v-btn>
         </v-form>
     </v-container>
 </template>
@@ -102,6 +93,7 @@ export default{
 
 a{
     color: #ff96a6;
+    text-decoration: none;
 }
 
 a:hover{

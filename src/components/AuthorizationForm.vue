@@ -1,19 +1,9 @@
 <script>
 import axios from 'axios';
-import Footer from './Footer.vue';
-import Header from './Header.vue';
 
 export default{
     components: {
-        Header,
-        Footer,
         axios
-    },
-    props: {
-        logo_name: {
-            type: String,
-            required: true
-        },
     },
     data() {
         return {
@@ -39,7 +29,6 @@ export default{
 </script>
 
 <template>
-    <Header :logo_name="this.logo_name"></Header>
     <v-container fluid class="container">
         <v-form class="registration-form">
             <img src="" alt="" class="registration-logo"> 
@@ -70,11 +59,10 @@ export default{
             ></v-text-field>
             <v-btn type="submit" class="registration-submit" @click="register()" block>Авторизоваться</v-btn>
             <p class="register-signin">
-                <pre>У вас нет аккаунта? <a href="#" class="register-signin-url">Зарегистрируйтесь</a></pre>
+                <pre>У вас нет аккаунта? <RouterLink class="register-signin-url" to="/register">Регистрация</RouterLink></pre>
             </p>
         </v-form>
     </v-container>
-    <Footer :logo_name="this.logo_name"></Footer>
 </template>
 
 <style scoped>

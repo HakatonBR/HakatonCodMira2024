@@ -1,22 +1,34 @@
 <template>
-    <v-container fluid>
-        <footer class="footer">
-        
-        </footer>
-    </v-container>
-</template>
-
-<style scoped>
-
-</style>
+    <v-footer class="bg-blue-darken-4 d-flex flex-column">
+      <div class=" d-flex w-100 align-center px-4">
+        <strong>Get connected with us on social networks!</strong>
+  
+        <v-spacer></v-spacer>
+  
+        <v-btn
+          v-for="icon in icons"
+          :key="icon"
+          :icon="icon"
+          class="mx-4"
+          size="small"
+          variant="plain"
+        ></v-btn>
+        <div class="text-center w-100">
+        © 2024 — <strong>Vuetify</strong>
+      </div>
+      </div>
+    </v-footer>
+  </template>
 
 <script>
-export default{
-    props: {
-        logo_name: {
-            type: String,
-            required: true
-        }
-    }
+export default {
+  data: () => ({
+    icons: [
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram',
+    ],
+  }),
 }
 </script>

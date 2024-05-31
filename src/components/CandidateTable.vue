@@ -1,5 +1,39 @@
 <template>
+  <!-- Список сравниваемых кандидатов -->
+  <v-navigation-drawer
+        v-model="left_drawer"
+        width="400"
+        temporary
+      >
+    <v-btn icon="mdi-window-close" @click="left_drawer=false"/>
+    <v-list>
+      <v-list-item
+        v-for="el in selected.sort((a, b) => a.id - b.id)"
+        :key="el"
+        :title="el.name"
+        :subtitle="el.job"
+        @click="switchRightDraw(el)"
+      >
+        {{el.id * 100}}%
+        <Profile v-if="selected.length < 3" :id="el.id"/>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+
+  <!-- Выбранный кандидат -->
+  <v-navigation-drawer
+    v-if="!!selectedCVinCompare"
+    v-model="right_drawer"
+    location="right"
+    width="400"
+    temporary
+  >
+    <v-btn icon="mdi-window-close" @click="right_drawer=false"/>
+    <Profile :id="selectedCVinCompare.id"/>
+  </v-navigation-drawer>
+
   <v-card>
+    <!-- Поиск -->
     <template v-slot:text>
       <v-text-field
         v-model="search"
@@ -11,24 +45,21 @@
       ></v-text-field>
     </template>
   <v-data-table
+    v-model="selected"
     :headers="headers"
     :items="candidates"
     :search="search"
     :sort-by="[{ key: 'name', order: 'desc' }]"
+    @click:row="gotoProfile"
+    return-object
+    show-select
   >
     <template v-slot:top>
       <v-toolbar
         flat
       >
-        <v-toolbar-title>Кандидаты</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
         <v-dialog
-          v-model="dialog"
+          v-model="dialogUpload"
           max-width="500px"
         >
           <template v-slot:activator="{ props }">
@@ -45,34 +76,63 @@
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
-
             <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    md="4"
-                    sm="6"
-                  >
-                    <v-text-field
-                      v-model="editedItem.name"
-                      label="ФИО"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    md="4"
-                    sm="6"
-                  >
-                    <v-text-field
-                      v-model="editedItem.job"
-                      label="Должность"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <v-file-input
+                label="Выберите файл"
+                counter
+                show-size
+                accept=".pdf,.docx,.rtf"
+                @change="handleFileUpload"
+              ></v-file-input>
             </v-card-text>
-
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <!-- редачить функции -->
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="closeUpload" 
+              >
+                Закрыть
+              </v-btn>
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="upload"
+              >
+                Загрузить
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="dialogCreate"
+          max-width="500px"
+        >
+          <template v-slot:activator="{ props }">
+            <v-btn
+              class="mb-2"
+              color="primary"
+              dark
+              v-bind="props"
+            >
+              Создать резюме
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">{{ formTitle }}</span>
+            </v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="editedItem.name"
+                label="ФИО"
+              ></v-text-field>
+              <v-text-field
+                v-model="editedItem.job"
+                label="Должность"
+              ></v-text-field>
+            </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -92,6 +152,23 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+        <v-btn
+          class="mb-2"
+          color="primary"
+          dark
+          @click="downloadCsv"
+        >
+          Выгрузить данные
+        </v-btn>
+        <v-btn 
+          class="mb-2"
+          color="primary"
+          dark
+          @click.stop="switchLeftDraw()"
+          :disabled="selected.length < 1"
+        >
+          Сравнить
+        </v-btn>
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5">Вы уверены, что хотите удалить этот элемент?</v-card-title>
@@ -107,15 +184,8 @@
     </template>
     <template v-slot:item.actions="{ item }">
       <v-icon
-        class="me-2"
         size="small"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        size="small"
-        @click="deleteItem(item)"
+        @click.stop="deleteItem(item)"
       >
         mdi-delete
       </v-icon>
@@ -133,9 +203,14 @@
 </template>
 
 <script>
+import Profile from './Profile.vue'
   export default {
+    components: {
+      Profile
+    },
     data: () => ({
-      dialog: false,
+      dialogCreate: false,
+      dialogUpload: false,
       dialogDelete: false,
       headers: [
         { title: 'ID', key: 'id',align: 'start', sortable: false },
@@ -143,6 +218,9 @@
         { title: 'Должность', key: 'job' },
         { title: 'Actions', key: 'actions', sortable: false },
       ],
+      selected: [],
+      right_drawer: false,
+      left_drawer: false,
       candidates: [],
       editedIndex: -1,
       editedItem: {
@@ -154,16 +232,17 @@
         job: '',
       },
       search: '',
+      selectedCVinCompare: null
     }),
 
     computed: {
       formTitle () {
         return this.editedIndex === -1 ? 'Загрузить резюме' : 'Редактировать'
-      },
+      }
     },
 
     watch: {
-      dialog (val) {
+      dialogUpload (val) {
         val || this.close()
       },
       dialogDelete (val) {
@@ -681,14 +760,6 @@
         ]
       },
 
-      editItem (item) {
-        this.editedIndex = this.candidates.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
-
-        // TODO: patch item with id = item.id
-      },
-
       deleteItem (item) {
         this.editedIndex = this.candidates.indexOf(item)
         this.editedItem = Object.assign({}, item)
@@ -703,7 +774,7 @@
       },
 
       close () {
-        this.dialog = false
+        this.dialogCreate = false
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
@@ -718,6 +789,11 @@
         })
       },
 
+      closeUpload () {
+        this.dialogUpload = false
+        // some logic
+      },
+
       save () {
         if (this.editedIndex > -1) {
           Object.assign(this.candidates[this.editedIndex], this.editedItem)
@@ -725,6 +801,30 @@
           this.candidates.push(this.editedItem)
         }
         this.close()
+      },
+
+      upload () {
+        // some logic
+        this.closeUpload()
+      },
+
+      downloadCsv(){
+        // some logic
+      },
+
+      gotoProfile(value, event){
+        this.$router.push("/profile/" + event.item.id);
+      },
+      switchLeftDraw(){
+        this.left_drawer = !this.left_drawer && (this.selected.length > 0)
+        return this.left_drawer
+      },
+
+      switchRightDraw(el){
+        console.log(!this.right_drawer && this.left_drawer)
+        this.right_drawer = !this.right_drawer && this.left_drawer && (this.selected.length > 2)
+        this.selectedCVinCompare = el
+        return this.right_drawer
       },
     },
   }
