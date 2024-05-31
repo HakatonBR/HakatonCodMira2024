@@ -20,25 +20,17 @@ export default{
             show_password: false,
             user_info: {
                 email: "",
-                role: "",
                 password: "",
             },
-            confirm_password: "",
-            items: [
-                "HR",
-                "Candidate"
-            ],
             rules: {
-                required: v => !!v || "Требуется ввод",
-                // emailExist: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
                 emailMatch: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
-                passwordMatch: v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(v) || 'Пароль должен содержать хотя бы одну цифру, одну маленькую и одну большую букву, и быть длиннее 8 символов',
-                passwordsEquals: v => v === this.user_info.password || 'Пароли не совпадают',
+                emailDontExist: v => /\S+@\S+\.\S+/.test(v) || "Почты не существует",
+                authFail: v => /\S+@\S+\.\S+/.test(v) || "Неверный логин или пароль",
             }
             }
     },
     methods: {
-        register(){
+        authorization(){
             // axios.post(`#`, [this.user_info]) // add the link
         },
     }
@@ -52,7 +44,7 @@ export default{
         <v-form class="registration-form">
             <img src="" alt="" class="registration-logo"> 
             <h1 class="registration-title">
-                Регистрация
+                Авторизация
             </h1>
             <hr class="registration-divider">
             <v-text-field 
@@ -64,15 +56,6 @@ export default{
                 label="Email"
                 required 
             ></v-text-field>
-            <v-select
-                :prepend-inner-icon="'mdi-briefcase-outline'"
-                v-model="this.user_info.role"
-                :items="items"
-                :rules="[rules.required]"
-                label="Роль"
-                required
-                class="registration-row-input"
-            ></v-select>
             <v-text-field 
                 :append-inner-icon="show_password ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show_password ? 'text' : 'password'"
@@ -85,19 +68,9 @@ export default{
                 v-model="this.user_info.password"
                 :rules="[rules.passwordMatch]"
             ></v-text-field>
-            <v-text-field 
-                prepend-inner-icon="mdi-lock-outline"
-                :type="show_password ? 'text' : 'password'"
-                type="password" 
-                class="registration-row-input" 
-                label="Подтверждение пароля" 
-                required 
-                v-model="this.confirm_password"
-                :rules="[rules.passwordsEquals]"
-            ></v-text-field>
-            <v-btn type="submit" class="registration-submit" @click="register()" block>Зарегистрироваться</v-btn>
+            <v-btn type="submit" class="registration-submit" @click="register()" block>Авторизоваться</v-btn>
             <p class="register-signin">
-                <pre>Если у вас есть аккаунт <a href="#" class="register-signin-url">авторизуйтесь</a></pre>
+                <pre>У вас нет аккаунта? <a href="#" class="register-signin-url">Зарегистрируйтесь</a></pre>
             </p>
         </v-form>
     </v-container>

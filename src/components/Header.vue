@@ -1,7 +1,9 @@
 <template>
-    <header class="header">
-        
-    </header>
+    <v-container fluid>
+        <header class="header">
+            
+        </header>
+    </v-container>
 </template>
 
 <style scoped>

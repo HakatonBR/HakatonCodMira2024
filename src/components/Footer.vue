@@ -1,7 +1,9 @@
 <template>
-    <footer class="footer">
+    <v-container fluid>
+        <footer class="footer">
         
-    </footer>
+        </footer>
+    </v-container>
 </template>
 
 <style scoped>

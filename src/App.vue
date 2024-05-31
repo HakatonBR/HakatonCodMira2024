@@ -1,4 +1,6 @@
 <script>
+import AuthorizationForm from './components/AuthorizationForm.vue';
+import CandidateTable from './components/CandidateTable.vue';
 import Footer from './components/Footer.vue';
 import Header from './components/Header.vue';
 import RegisterForm from './components/RegisterForm.vue';
@@ -7,8 +9,11 @@ export default{
     components: {
         Header,
         Footer,
-        RegisterForm
+        RegisterForm,
+        AuthorizationForm,
+        CandidateTable
     },
+    name: 'App',
     data() {
         return {
             logo_name: "IP-position"
@@ -24,10 +29,8 @@ export default{
 </script>
 
 <template>
-    <Header :logo_name="this.logo_name"></Header>
-    <RegisterForm :logo_name="this.logo_name"></RegisterForm>
-    <Footer :logo_name="this.logo_name"></Footer>
+    <v-app>
+        <!-- <CandidateTablie/> -->
+        <AuthorizationForm :logo_name="this.logo_name"/>
+    </v-app>
 </template>
-
-<style>
-</style>
