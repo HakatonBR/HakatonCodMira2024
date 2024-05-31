@@ -30,7 +30,7 @@ export default{
 
 <template>
     <v-app>
-        <!-- <CandidateTablie/> -->
-        <AuthorizationForm :logo_name="this.logo_name"/>
+        <CandidateTable/>
+        <!-- <AuthorizationForm :logo_name="this.logo_name"/> -->
     </v-app>
 </template>
