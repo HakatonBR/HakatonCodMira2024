@@ -10,3 +10,5 @@ from .responsibilities import Responsibilities
 from .languages import Languages
 from .competention import Competention
 from .user import User
+from .candidate import Candidate
+from .status import StatusChoice

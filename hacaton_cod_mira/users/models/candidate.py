@@ -8,6 +8,7 @@ from .army_status import ArmyStatus
 from .education import Education
 from .job_vacancy import JobVacancy
 from .languages import Languages
+from .status import StatusChoice
 
 
 class Candidate(models.Model):
@@ -28,17 +29,20 @@ class Candidate(models.Model):
         choices=SexChoices.choices,
         default=SexChoices.NO_SELECTED,
         verbose_name="Пол",
+        max_length=125
     )
     age = models.IntegerField(validators=[MaxValueValidator(101)])
     army_status = models.CharField(
         choices=ArmyStatus.choices,
         default=ArmyStatus.NO_SELECTED,
-        verbose_name="Статус воинской службы"
+        verbose_name="Статус воинской службы",
+        max_length=125
     )
     education = models.CharField(
         choices=Education.choices,
         default=Education.NO_SELECTED,
-        verbose_name="Образование"
+        verbose_name="Образование",
+        max_length=125
     )
     job_vacancy = models.ForeignKey(
         JobVacancy,
@@ -47,5 +51,12 @@ class Candidate(models.Model):
     languages = models.CharField(
         choices=Languages.choices,
         default=Languages.NO_SELCTED,
-        verbose_name="Языки"
+        verbose_name="Языки",
+        max_length=125
     )
+    status = models.CharField(
+        choices=StatusChoice.choices,
+        default=StatusChoice.NOT_VIEWED,
+        max_length=125
+    )
+    comments = models.TextField()

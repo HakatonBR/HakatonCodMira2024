@@ -29,7 +29,7 @@ class User(AbstractBaseUser):
         if self.is_active and self.is_superuser:
             return True
         
-    def has_module_perm(self, app_label):
+    def has_module_perms(self, app_label):
         if self.is_active and self.is_superuser:
             return True
         
