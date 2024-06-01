@@ -7,4 +7,3 @@ from .competention_profile import CompetentionProfileAdmin
 from .competention import CompetentionAdmin
 from .job_vacancy import JobVacancyAdmin
 from .responsibilities import Responsibilities
-from .role import Role

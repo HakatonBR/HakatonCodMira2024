@@ -1,23 +1,20 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-import random
-import string
+
+from users.models.role import Role
 
 
 User = get_user_model()
-
-
-import random
-import string
 
 class RegisterSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True, write_only=True)
     password_confirm = serializers.CharField(required=True, write_only=True)
+    role = serializers.ChoiceField(choices=Role.choices)
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'password_confirm']
+        fields = ['email', 'password', 'password_confirm', 'role']
 
     def validate(self, attrs):
         email = attrs.get('email')
@@ -40,7 +37,8 @@ class RegisterSerializer(serializers.ModelSerializer):
         password = validated_data['password']
         user = User.objects.create_account(
             email=email,
-            password=password
+            password=password,
+            role=validated_data['role']
         )
 
         return user

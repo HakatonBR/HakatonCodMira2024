@@ -9,6 +9,7 @@ from .education import Education
 from .job_vacancy import JobVacancy
 from .languages import Languages
 from .status import StatusChoice
+from .user import User
 
 
 class Candidate(models.Model):
@@ -60,3 +61,4 @@ class Candidate(models.Model):
         max_length=125
     )
     comments = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
