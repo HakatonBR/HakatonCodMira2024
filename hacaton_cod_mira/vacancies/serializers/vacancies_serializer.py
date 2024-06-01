@@ -25,3 +25,10 @@ class VacancySerializer(serializers.ModelSerializer):
             'competention_id': c.competention_id,
             'competention_name': c.competention_name
         } for c in obj.competention.all()]
+
+
+class VacanciesUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vacancy
+        fields = ('vacancy_id', 'vacancy_name', 'vacancy_text', 'competention')
+
