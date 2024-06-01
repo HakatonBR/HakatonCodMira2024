@@ -1,3 +1,7 @@
+Презентация - https://docs.google.com/presentation/d/1zElfVatbmnnppICu3uqa1LLPVTf0q0C-/edit?usp=sharing&ouid=106168875550130760629&rtpof=true&sd=true
+
+Список зависимостей находится в requirements.txt
+
 Programming Recruter Assistant Tool: Service Variable Artificial Intelligence
 Новый инстурмент позволяет:
 1. Поддерживать форматы PDF, DOCX, DOC, ODT, RTF, TXT.
@@ -18,7 +22,7 @@ Programming Recruter Assistant Tool: Service Variable Artificial Intelligence
 - выгрузка результатов построения профилей кандидата в формате CSV
 
 Нанимающий менеджер:
-- загрузка резбме (одного или несколько)
+- загрузка резюме (одного или несколько)
 - просмотр реультата построения профила компетенций
 - просмотр результата простроеи профиля карьеры кандидата
 - выгрузка результатов построения в формате CSV
@@ -37,3 +41,6 @@ Programming Recruter Assistant Tool: Service Variable Artificial Intelligence
 
 Описание работы нейросети:
 
+
+
+Удачи при запуске!
