@@ -29,6 +29,7 @@
                 class="mb-2"
                 v-bind="props"
               >
+              {{ this.$cookies.keys() }}
                 Создать вакансию
               </v-btn>
             </template>
@@ -96,8 +97,9 @@
     </v-card>
   </template>
   
-  <script>
-  import Vacancy from './Vacancy.vue'
+<script>
+import Vacancy from './Vacancy.vue';
+
     export default {
       components: {
         Vacancy
