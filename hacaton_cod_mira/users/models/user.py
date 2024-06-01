@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.utils import timezone
 
 from users.managers.user_manager import UserManager
+from .role import Role
 
 
 class User(AbstractBaseUser):
@@ -19,6 +20,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
+    role = models.CharField(choices=Role.choices, max_length=125, default='')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['password', ]

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "rest_framework",
     "users.apps.UsersConfig",
+    "vacancies.apps.VacanciesConfig",
 ]
 
 SESSION_COOKIE_SECURE = False

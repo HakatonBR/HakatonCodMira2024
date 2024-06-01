@@ -14,7 +14,6 @@ class CareerPoint(models.Model):
     )
     beginning_of_work = models.DateTimeField()
     ending_of_work = models.DateTimeField()
-    role = models.ForeignKey(Role, on_delete=models.CASCADE)
     responsibilities = models.ForeignKey(
         Responsibilities,
         on_delete=models.CASCADE
