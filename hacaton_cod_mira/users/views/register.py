@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from rest_framework.parsers import MultiPartParser
+from rest_framework import parsers
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 
@@ -15,7 +15,7 @@ User = get_user_model()
 class RegisterAPIView(generics.GenericAPIView):
     permission_classes = [AllowAny, ]
     serializer_class = RegisterSerializer
-    parser_classes = (MultiPartParser,)
+    parser_classes = (parsers.JSONParser,)
 
     def post(self, request):
         email = request.data.get("email")

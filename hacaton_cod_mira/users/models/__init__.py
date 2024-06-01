@@ -4,7 +4,6 @@ from .sex_choice import SexChoices
 from .competention_profile import CompetentionProfile
 from .career_profile import CareerProfile
 from .education import Education
-from .job_vacancy import JobVacancy
 from .company_info import CompanyInfo
 from .responsibilities import Responsibilities
 from .languages import Languages

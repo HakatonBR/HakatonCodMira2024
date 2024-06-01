@@ -13,7 +13,7 @@ from hacaton_cod_mira.swagger_service.apply_swagger_auto_schema import apply_swa
 
 class UsersViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, ]
-    parser_classes = [parsers.MultiPartParser, ]
+    parser_classes = [parsers.JSONParser, ]
     serializer_class = UserSerializer
 
     def get_queryset(self):

@@ -1,0 +1,1 @@
+from .vacancies_serializer import VacanciesSerializer, VacanciesCreteSerializer

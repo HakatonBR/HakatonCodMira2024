@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser
+from rest_framework import parsers
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.hashers import check_password
 
@@ -11,7 +11,7 @@ from hacaton_cod_mira.swagger_service.apply_swagger_auto_schema import apply_swa
 
 class ChangePasswordAPIView(generics.GenericAPIView):
     serializer_class = ChangePasswordSerializer
-    parser_classes = [MultiPartParser, ]
+    parser_classes = [parsers.JSONParser, ]
 
     def put(self, request):
         serializer = self.get_serializer(data=request.data)
