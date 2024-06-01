@@ -5,8 +5,10 @@ from users.views.register import RegisterAPIView
 from users.views.login import LoginView
 from users.views.logout import LogoutView
 from users.views.change_password import ChangePasswordAPIView
+from users.views.candidates import CandidatesViewSet
 
 router = routers.DefaultRouter()
+router.register('candidates', CandidatesViewSet, basename='candidates')
 
 
 urlpatterns = [
