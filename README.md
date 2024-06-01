@@ -41,6 +41,20 @@ Programming Recruter Assistant Tool: Service Variable Artificial Intelligence
 
 Описание работы нейросети:
 
+- Доработки 
 
+Как поднять проект:
+
+- Back-end:
+1. Перейдите в директорию hacaton_cod_mira (в ней находится файл `manage.py`)
+2. Активируйте вирутальное окружение 
+3. Установите все зависимости командой `pip install -r requirements.txt`
+4. Сделайте миграции с помощью команд - `python manage.py makemigrations` и `python manage.py migrate`
+5. Запустите сервер командой `python manage.py runserver`
+6. Для наполнения данными и БД можно использовать Django админку
+
+- Front-end:
+1. Установите зависимости командой `npm install`
+2. Запустите проект командой `npm run dev`
 
 Удачи при запуске!
