@@ -13,15 +13,29 @@ export default{
                 password: "",
             },
             rules: {
-                emailMatch: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
-                emailDontExist: v => /\S+@\S+\.\S+/.test(v) || "Почты не существует",
-                authFail: v => /\S+@\S+\.\S+/.test(v) || "Неверный логин или пароль",
+                emailMatch: v => func_required,
+                // emailDontExist: v => /\S+@\S+\.\S+/.test(v) || "Почты не существует",
+                // authFail: v => /\S+@\S+\.\S+/.test(v) || "Неверный логин или пароль",
             }
-            }
+            
+        }
     },
     methods: {
         authorization(){
-            // axios.post(`#`, [this.user_info]) // add the link
+            let a = axios.post(this.$store.state.root_url+ "/api/users/login/", this.user_info, {
+                withCredentials: true,
+                timeout: 5000 // Увеличьте тайм-аут до 5000 мс (5 секунд) или другого значения
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        func_required(v) {
+            this.required = !!v
+            return this.required || "Требуется ввод"
+        },
+        func_emailMatch(v) {
+            this.emailMatch = /\S+@\S+\.\S+/.test(v)
+            return this.emailMatch || "Некорректная почта"
         },
     }
 
@@ -34,13 +48,13 @@ export default{
             <img src="" alt="" class="registration-logo"> 
             <h1 class="registration-title">
                 Авторизация
+                {{ $cookies.get("access_token") }}
             </h1>
             <hr class="registration-divider">
             <v-text-field 
                 prepend-inner-icon="mdi-email-outline"
                 v-model="this.user_info.email"
-                type="email" 
-                :rules="[rules.emailMatch]"
+                type="email"
                 class="registration-row-input" 
                 label="Email"
                 required 
@@ -55,9 +69,8 @@ export default{
                 label="Пароль" 
                 required 
                 v-model="this.user_info.password"
-                :rules="[rules.passwordMatch]"
             ></v-text-field>
-            <v-btn type="submit" class="registration-submit" @click="register()" block>Авторизоваться</v-btn>
+            <v-btn type="button" class="registration-submit" @click="authorization()" block>Авторизоваться</v-btn>
             <p class="register-signin">
                 <pre>У вас нет аккаунта? <RouterLink class="register-signin-url" to="/register">Регистрация</RouterLink></pre>
             </p>
@@ -66,73 +79,4 @@ export default{
 </template>
 
 <style scoped>
-
-.container{
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.registration-title{
-    margin: 10px;
-    font-size: 30px;
-}
-
-a{
-    color: #ff96a6;
-    text-decoration: none;
-}
-
-a:hover{
-    color: 1px solid #fd6e8c;
-    translate: 300ms;
-}
-
-.registration-divider{
-    margin-top: 20px;
-    justify-content: center;
-    height: 4px;
-    width: 100px;
-    background-color: #ff96a6;
-    border: none;
-}
-
-.registration-form{
-    margin-top: 50px;
-    padding: 30px;
-    border-radius: 50px;
-    background-color: #fdf0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 576px;
-}
-
-.registration-row-input{
-    width: 500px;
-    margin-top: 30px;
-}
-
-.register-signin{
-    text-align: center;
-    display: block;
-}
-
-.registration-submit{
-    margin-top: 50px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 30px;
-    color: white;
-    background-color: #ff96a6;
-    border: none;
-    height: 60px;
-    width: 100%;
-}
-
-.registration-submit:hover{
-    background-color: #fd6e8c;
-    transition: 300ms;
-} 
 </style>

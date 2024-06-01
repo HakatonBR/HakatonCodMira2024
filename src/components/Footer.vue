@@ -1,5 +1,5 @@
 <template>
-    <v-footer class="bg-blue-darken-4 d-flex flex-column">
+    <v-footer class="d-flex flex-column">
       <div class=" d-flex w-100 align-center px-4">
         <strong>Get connected with us on social networks!</strong>
   

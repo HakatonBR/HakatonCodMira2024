@@ -9,6 +9,7 @@ import App from './App.vue';
 
 import { createMemoryHistory, createRouter } from 'vue-router';
 
+import VueCookies from 'vue-cookies';
 import { createStore } from 'vuex';
 import AuthorizationForm from './components/AuthorizationForm.vue';
 import CandidateTable from './components/CandidateTable.vue';
@@ -49,7 +50,7 @@ const store = createStore({
       logo_name: "Test",
       logo_url: "./",
       is_auth: false,
-      root_url: "localhost:8000",
+      root_url: "http://localhost:8000/",
       user: {
         initials: 'RG',
         fullName: 'Ryan Goosling',
@@ -61,4 +62,4 @@ const store = createStore({
   }
 })
 
-createApp(App).use(router).use(vuetify).use(store).mount('#app')
+createApp(App).use(VueCookies, { expires: '7d'}).use(router).use(vuetify).use(store).mount('#app')

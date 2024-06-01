@@ -65,7 +65,6 @@
           <template v-slot:activator="{ props }">
             <v-btn
               class="mb-2"
-              color="primary"
               dark
               v-bind="props"
             >
@@ -89,14 +88,12 @@
               <v-spacer></v-spacer>
               <!-- редачить функции -->
               <v-btn
-                color="blue-darken-1"
                 variant="text"
                 @click="closeUpload" 
               >
                 Закрыть
               </v-btn>
               <v-btn
-                color="blue-darken-1"
                 variant="text"
                 @click="upload"
               >
@@ -112,7 +109,6 @@
           <template v-slot:activator="{ props }">
             <v-btn
               class="mb-2"
-              color="primary"
               dark
               v-bind="props"
             >
@@ -136,14 +132,12 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
-                color="blue-darken-1"
                 variant="text"
                 @click="close"
               >
                 Закрыть
               </v-btn>
               <v-btn
-                color="blue-darken-1"
                 variant="text"
                 @click="save"
               >
@@ -154,7 +148,6 @@
         </v-dialog>
         <v-btn
           class="mb-2"
-          color="primary"
           dark
           @click="downloadCsv"
         >
@@ -162,7 +155,6 @@
         </v-btn>
         <v-btn 
           class="mb-2"
-          color="primary"
           dark
           @click.stop="switchLeftDraw()"
           :disabled="selected.length < 1"
@@ -174,8 +166,8 @@
             <v-card-title class="text-h5">Вы уверены, что хотите удалить этот элемент?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Закрыть</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">Да</v-btn>
+              <v-btn variant="text" @click="closeDelete">Закрыть</v-btn>
+              <v-btn variant="text" @click="deleteItemConfirm">Да</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -191,10 +183,7 @@
       </v-icon>
     </template>
     <template v-slot:no-data>
-      <v-btn
-        color="primary"
-        @click="initialize"
-      >
+      <v-btn @click="initialize">
         Перезагрузить
       </v-btn>
     </template>

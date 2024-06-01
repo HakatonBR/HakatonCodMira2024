@@ -1,32 +1,69 @@
 <script>
 import axios from 'axios';
 
-export default{
+export default {
     components: {
         axios
     },
     data() {
         return {
+            required: false,
+            emailMatch: false,
+            passwordMatch: false,
+            passwordsEquals: false,
+
             show_password: false,
             user_info: {
                 email: "",
                 role: "",
                 password: "",
+                password_confirm: "",
             },
-            confirm_password: "",
             items: [
-                "HR",
-                "Recruiter",
-                "Reourse Manager"
+                "HR менеджер",
+                "Рекрутер",
+                "Ресурсный менеджер"
             ],
             rules: {
-                required: v => !!v || "Требуется ввод",
+                required: v => this.func_required(v),
+                emailMatch: v => this.func_emailMatch(v),
+                passwordMatch: v => this.func_passwordMatch(v),
+                passwordsEquals: v => this.func_passwordsEquals(v),
+
                 // emailExist: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
-                emailMatch: v => /\S+@\S+\.\S+/.test(v) || "Некорректная почта",
-                passwordMatch: v => /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(v) || 'Пароль должен содержать хотя бы одну цифру, одну маленькую и одну большую букву, и быть длиннее 8 символов',
-                passwordsEquals: v => v === this.user_info.password || 'Пароли не совпадают',
             }
-            }
+        }
+    },
+    methods: {
+        register(){
+            let a = axios.post(this.$store.state.root_url+ `api/users/register/`, this.user_info, {
+                timeout: 1000,
+            }).then(responce =>
+                axios.post(this.$store.state.root_url + "/api/users/login/", {email: this.user_info.email, password: this.user_info.password}, {
+                    timeout: 1000
+                }).catch(error => {
+                    console.log(error);
+                })
+            ).catch(error => {
+                console.log(error);
+            });
+        },
+        func_required(v) {
+            this.required = !!v
+            return this.required || "Требуется ввод"
+        },
+        func_emailMatch(v) {
+            this.emailMatch = /\S+@\S+\.\S+/.test(v)
+            return this.emailMatch || "Некорректная почта"
+        },
+        func_passwordMatch(v) {
+            this.passwordMatch = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/.test(v)
+            return this.passwordMatch || 'Пароль должен содержать хотя бы одну цифру, одну маленькую и одну большую букву, и быть длиннее 8 символов'
+        },
+        func_passwordsEquals(v) {
+            this.passwordsEquals = v === this.user_info.password
+            return this.passwordsEquals || 'Пароли не совпадают'
+        },
     }
 }
 </script>
@@ -76,10 +113,10 @@ export default{
                 class="registration-row-input" 
                 label="Подтверждение пароля" 
                 required 
-                v-model="this.confirm_password"
+                v-model="this.user_info.password_confirm"
                 :rules="[rules.passwordsEquals]"
             ></v-text-field>
-            <v-btn type="submit" class="registration-submit" @click="register()" block>Зарегистрироваться</v-btn>
+            <v-btn type="button" :disabled="!(required && emailMatch && passwordMatch && passwordsEquals)" class="registration-submit" @click="register()" block>Зарегистрироваться</v-btn>
             <p class="register-signin">
                 <pre>Если у вас есть аккаунт <RouterLink class="register-signin-url" to="/auth">авторизация</RouterLink></pre>
             </p>
@@ -88,72 +125,4 @@ export default{
 </template>
 
 <style scoped>
-
-.container{
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.registration-title{
-    margin: 10px;
-    font-size: 30px;
-}
-
-a{
-    color: #ff96a6;
-}
-
-a:hover{
-    color: 1px solid #fd6e8c;
-    translate: 300ms;
-}
-
-.registration-divider{
-    margin-top: 20px;
-    justify-content: center;
-    height: 4px;
-    width: 100px;
-    background-color: #ff96a6;
-    border: none;
-}
-
-.registration-form{
-    margin-top: 50px;
-    padding: 30px;
-    border-radius: 50px;
-    background-color: #fdf0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 576px;
-}
-
-.registration-row-input{
-    width: 500px;
-    margin-top: 30px;
-}
-
-.register-signin{
-    text-align: center;
-    display: block;
-}
-
-.registration-submit{
-    margin-top: 50px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 30px;
-    color: white;
-    background-color: #ff96a6;
-    border: none;
-    height: 60px;
-    width: 100%;
-}
-
-.registration-submit:hover{
-    background-color: #fd6e8c;
-    transition: 300ms;
-} 
 </style>

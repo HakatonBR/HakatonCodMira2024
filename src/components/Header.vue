@@ -1,6 +1,5 @@
 <template>
     <v-card
-      color="grey-lighten-4"
       rounded="0"
       flat
     >
@@ -41,7 +40,7 @@
                             <v-divider class="my-3"></v-divider>
 
                             <!-- delete auth cookie -->
-                            <RouterLink to="/" tag="button" @click="console.log('test')">Выход</RouterLink>
+                            <RouterLink to="/" tag="button" @click="logout()">Выход</RouterLink>
                         </div>
                     </v-card-text>
                 </v-card>
@@ -55,4 +54,24 @@
 </style>
 
 <script>
+import axios from 'axios';
+
+export default{
+    components: {
+        axios
+    },
+    methods: {
+        logout(){
+            axios.post(this.$store.state.root_url+ "/api/users/logout/", {}, {
+                timeout: 1000, // Увеличьте тайм-аут до 5000 мс (5 секунд) или другого значения
+                accept: "application/json",
+                authorization: "Basic MUAxLjE6bVo6X3JHLXReMlVEIVVr",
+                "Content-Type": "multipart/form-data",
+                "X-CSRFToken": "4pXk8V2JfSgfYZld9WFiebMKlxxU73nM0ePbNwnilbTgT378WFcCHAN45v7YTn8A",
+            }).catch(error => {
+                console.log(error.message);
+            });
+        }
+    }
+}
 </script>

@@ -73,79 +73,12 @@ export default{
                 v-model="this.confirm_password"
                 :rules="[rules.passwordsEquals]"
             ></v-text-field>
-            <v-btn type="submit" class="registration-submit" @click="reset_password()" block>Подтверждить</v-btn>
+            <v-btn type="button" class="registration-submit" @click="reset_password()" block>Подтверждить</v-btn>
         </v-form>
     </v-container>
 </template>
 
+
 <style scoped>
-
-.container{
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-.registration-title{
-    margin: 10px;
-    font-size: 30px;
-}
-
-a{
-    color: #ff96a6;
-    text-decoration: none;
-}
-
-a:hover{
-    color: 1px solid #fd6e8c;
-    translate: 300ms;
-}
-
-.registration-divider{
-    margin-top: 20px;
-    justify-content: center;
-    height: 4px;
-    width: 100px;
-    background-color: #ff96a6;
-    border: none;
-}
-
-.registration-form{
-    margin-top: 50px;
-    padding: 30px;
-    border-radius: 50px;
-    background-color: #fdf0f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 576px;
-}
-
-.registration-row-input{
-    width: 500px;
-    margin-top: 30px;
-}
-
-.register-signin{
-    text-align: center;
-    display: block;
-}
-
-.registration-submit{
-    margin-top: 50px;
-    margin-bottom: 30px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 30px;
-    color: white;
-    background-color: #ff96a6;
-    border: none;
-    height: 60px;
-    width: 100%;
-}
-
-.registration-submit:hover{
-    background-color: #fd6e8c;
-    transition: 300ms;
-} 
+/*  */
 </style>

@@ -4,7 +4,6 @@
     /* font-family: url('./') */
     font-weight: normal;
     font-weight: 500;
-    color: black;
 }
 
 body {
@@ -13,13 +12,59 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ff96a6;
-}
-
-input:-webkit-autofill{
-	box-shadow:inset 0 0 0 1000px #fff;
 }
 
 a {
     text-decoration: none;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.registration-title{
+    margin: 10px;
+    font-size: 30px;
+}
+
+.registration-divider{
+    margin-top: 20px;
+    justify-content: center;
+    height: 4px;
+    width: 100px;
+    border: none;
+}
+
+.registration-form{
+    margin-top: 50px;
+    padding: 30px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 576px;
+}
+
+.registration-row-input{
+    width: 500px;
+    margin-top: 30px;
+}
+
+.register-signin{
+    text-align: center;
+    display: block;
+}
+
+.registration-submit{
+    margin-top: 50px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 30px;
+    border: none;
+    height: 60px;
+    width: 100%;
 }
