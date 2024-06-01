@@ -5,5 +5,4 @@ from .career_profile import CareerProfileAdmin
 from .company_info import CompanyInfoAdmin
 from .competention_profile import CompetentionProfileAdmin
 from .competention import CompetentionAdmin
-from .job_vacancy import JobVacancyAdmin
 from .responsibilities import Responsibilities

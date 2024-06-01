@@ -6,10 +6,10 @@ from .career_profile import CareerProfile
 from .sex_choice import SexChoices
 from .army_status import ArmyStatus
 from .education import Education
-from .job_vacancy import JobVacancy
 from .languages import Languages
 from .status import StatusChoice
 from .user import User
+from vacancies.models.vacancy import Vacancy
 
 
 class Candidate(models.Model):
@@ -45,10 +45,6 @@ class Candidate(models.Model):
         verbose_name="Образование",
         max_length=125
     )
-    job_vacancy = models.ForeignKey(
-        JobVacancy,
-        on_delete=models.CASCADE
-    )
     languages = models.CharField(
         choices=Languages.choices,
         default=Languages.NO_SELCTED,
@@ -62,3 +58,10 @@ class Candidate(models.Model):
     )
     comments = models.TextField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, default='')
+    vacancy = models.ForeignKey(
+        Vacancy,
+        on_delete=models.CASCADE,
+        default=None,
+        related_name='vacancies',
+    )
+    phone_number = models.CharField(max_length=125, default="Не указано")
