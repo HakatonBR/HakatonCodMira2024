@@ -38,15 +38,10 @@ export default {
         register(){
             let a = axios.post(this.$store.state.root_url+ `api/users/register/`, this.user_info, {
                 timeout: 1000,
-            }).then(responce =>
-                axios.post(this.$store.state.root_url + "/api/users/login/", {email: this.user_info.email, password: this.user_info.password}, {
-                    timeout: 1000
-                }).catch(error => {
-                    console.log(error);
-                })
-            ).catch(error => {
+            }).catch(error => {
                 console.log(error);
             });
+            this.$router.push("/auth");
         },
         func_required(v) {
             this.required = !!v
