@@ -161,7 +161,7 @@ REST_FRAMEWORK = {
 
 SESSION_COOKIE_SAMESITE = 'Lax'  # Устанавливает политику SameSite для кук, чтобы обеспечить безопасность.
 # SESSION_COOKIE_SECURE = True  # Устанавливает куки как secure (требующие HTTPS).
-SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = False
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
